@@ -23,4 +23,27 @@ class NodeTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('p', $node->getTag());
     }
+
+    public function testGetAttribute()
+    {
+        $node = new Node('div', [
+            'class' => 'form-control',
+            'id'    => 'name'
+        ]);
+
+        $this->assertEquals('form-control', $node->getAttribute('class'));
+        $this->assertEquals('name', $node->getAttribute('id'));
+        $this->assertNull($node->getAttribute('foo'));
+    }
+
+    public function testSetAttribute()
+    {
+        $node = new Node('div', [
+            'class' => 'form-control',
+            'id'    => 'name'
+        ]);
+
+        $node->setAttribute('class', 'row');
+        $this->assertEquals('row', $node->getAttribute('class'));
+    }
 }
