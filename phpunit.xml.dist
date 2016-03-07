@@ -10,8 +10,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Ganon Test Suite">
-            <directory>tests</directory>
+        <testsuite name="Ganon Unit Test Suite">
+            <directory>tests/unit</directory>
         </testsuite>
     </testsuites>
     <filter>
