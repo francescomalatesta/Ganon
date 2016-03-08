@@ -90,4 +90,60 @@ class Node
         $name = strtolower($name);
         $this->attributes[$name] = $value;
     }
+
+    /**
+     * Checks if the current node has the $name class.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function hasClass($name)
+    {
+        if(!$this->hasAttribute('class')) {
+            return false;
+        }
+
+        $classes = explode(' ', $this->getAttribute('class'));
+
+        return in_array($name, $classes);
+    }
+
+    /**
+     * Adds the $name class to the current node.
+     *
+     * @param string $name
+     */
+    public function addClass($name)
+    {
+        if(!$this->hasAttribute('class')) {
+            $this->setAttribute('class', $name);
+            return;
+        }
+
+        $classes = explode(' ', $this->getAttribute('class'));
+
+        if(!in_array($name, $classes)) {
+            $classes[] = $name;
+            $this->setAttribute('class', implode(' ', $classes));
+        }
+    }
+
+    public function removeClass($name)
+    {
+        if(!$this->hasAttribute('class')) {
+            return;
+        }
+
+        if($this->hasClass($name)) {
+            $classes = explode(' ', $this->getAttribute('class'));
+            $classes = array_diff($classes, [$name]);
+
+            if(count($classes) != 0){
+                $this->setAttribute('class', implode(' ', $classes));
+            } else {
+                // so ugly
+                $this->attributes = array_diff_key($this->attributes, ['class' => '']);
+            }
+        }
+    }
 }

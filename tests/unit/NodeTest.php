@@ -61,4 +61,47 @@ class NodeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('row', $node->getAttribute('class'));
         $this->assertEquals('bar', $node->getAttribute('foo'));
     }
+
+    public function testHasClass()
+    {
+        $node = new Node('div', [
+            'class' => 'class1 class2'
+        ]);
+
+        $this->assertTrue($node->hasClass('class1'));
+        $this->assertTrue($node->hasClass('class2'));
+        $this->assertFalse($node->hasClass('class3'));
+
+        $node = new Node('div');
+        $this->assertFalse($node->hasClass('class1'));
+    }
+
+    public function testAddClass()
+    {
+        $node = new Node('div', [
+            'class' => 'class1 class2'
+        ]);
+
+        $this->assertFalse($node->hasClass('class3'));
+        $node->addClass('class3');
+        $this->assertTrue($node->hasClass('class3'));
+
+        $node = new Node('div');
+
+        $node->addClass('class1');
+        $this->assertTrue($node->hasClass('class1'));
+    }
+
+    public function testRemoveClass()
+    {
+        $node = new Node('div', [
+            'class' => 'class1 class2'
+        ]);
+
+        $node->removeClass('class1');
+        $this->assertEquals('class2', $node->getAttribute('class'));
+
+        $node->removeClass('class2');
+        $this->assertFalse($node->hasAttribute('class'));
+    }
 }
