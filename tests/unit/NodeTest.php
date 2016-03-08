@@ -58,8 +58,11 @@ class NodeTest extends PHPUnit_Framework_TestCase
 
         $node->setAttribute('class', 'row');
         $node->setAttribute('FOO', 'bar');
+        $node->setAttribute('id', null);
+
         $this->assertEquals('row', $node->getAttribute('class'));
         $this->assertEquals('bar', $node->getAttribute('foo'));
+        $this->assertFalse($node->hasAttribute('id'));
     }
 
     public function testHasClass()

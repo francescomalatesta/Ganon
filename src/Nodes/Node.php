@@ -17,7 +17,7 @@ class Node
      *
      * @var array
      */
-    private $attributes;
+    private $attributes = [];
 
     /**
      * Node constructor.
@@ -63,7 +63,7 @@ class Node
     public function hasAttribute($name)
     {
         $name = strtolower($name);
-        return (isset($this->attributes[$name]));
+        return (array_key_exists($name, $this->attributes));
     }
 
     /**
@@ -88,6 +88,12 @@ class Node
     public function setAttribute($name, $value)
     {
         $name = strtolower($name);
+
+        if($this->hasAttribute($name) && $value === null) {
+            $this->attributes = array_diff_key($this->attributes, [$name => '']);
+            return;
+        }
+
         $this->attributes[$name] = $value;
     }
 
@@ -128,6 +134,11 @@ class Node
         }
     }
 
+    /**
+     * Removes the $name class from the current node.
+     *
+     * @param string $name
+     */
     public function removeClass($name)
     {
         if(!$this->hasAttribute('class')) {
@@ -141,8 +152,7 @@ class Node
             if(count($classes) != 0){
                 $this->setAttribute('class', implode(' ', $classes));
             } else {
-                // so ugly
-                $this->attributes = array_diff_key($this->attributes, ['class' => '']);
+                $this->setAttribute('class', null);
             }
         }
     }
