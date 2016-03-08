@@ -27,7 +27,10 @@ class Node
     public function __construct($tag, $attributes = [])
     {
         $this->tag = $tag;
-        $this->attributes = $attributes;
+
+        foreach($attributes as $name => $value) {
+            $this->setAttribute($name, $value);
+        }
     }
 
     /**
@@ -59,6 +62,7 @@ class Node
      */
     public function hasAttribute($name)
     {
+        $name = strtolower($name);
         return (isset($this->attributes[$name]));
     }
 
@@ -71,6 +75,7 @@ class Node
      */
     public function getAttribute($name)
     {
+        $name = strtolower($name);
         return ($this->hasAttribute($name)) ? $this->attributes[$name] : null;
     }
 
@@ -82,6 +87,7 @@ class Node
      */
     public function setAttribute($name, $value)
     {
+        $name = strtolower($name);
         $this->attributes[$name] = $value;
     }
 }

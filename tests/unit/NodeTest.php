@@ -31,6 +31,7 @@ class NodeTest extends PHPUnit_Framework_TestCase
         ]);
 
         $this->assertTrue($node->hasAttribute('class'));
+        $this->assertTrue($node->hasAttribute('CLASS'));
         $this->assertFalse($node->hasAttribute('foo'));
     }
 
@@ -38,11 +39,13 @@ class NodeTest extends PHPUnit_Framework_TestCase
     {
         $node = new Node('div', [
             'class' => 'form-control',
+            'BAR'   => 'test',
             'id'    => 'name'
         ]);
 
         $this->assertEquals('form-control', $node->getAttribute('class'));
         $this->assertEquals('name', $node->getAttribute('id'));
+        $this->assertEquals('test', $node->getAttribute('bar'));
         $this->assertNull($node->getAttribute('foo'));
     }
 
@@ -54,6 +57,8 @@ class NodeTest extends PHPUnit_Framework_TestCase
         ]);
 
         $node->setAttribute('class', 'row');
+        $node->setAttribute('FOO', 'bar');
         $this->assertEquals('row', $node->getAttribute('class'));
+        $this->assertEquals('bar', $node->getAttribute('foo'));
     }
 }
