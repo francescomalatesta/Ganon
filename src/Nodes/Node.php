@@ -2,7 +2,6 @@
 
 namespace francescomalatesta\ganon\Nodes;
 
-
 class Node
 {
     /**
@@ -28,7 +27,7 @@ class Node
     {
         $this->setTag($tag);
 
-        foreach($attributes as $name => $value) {
+        foreach ($attributes as $name => $value) {
             $this->setAttribute($name, $value);
         }
     }
@@ -89,7 +88,7 @@ class Node
     {
         $name = strtolower($name);
 
-        if($this->hasAttribute($name) && $value === null) {
+        if ($this->hasAttribute($name) && $value === null) {
             $this->attributes = array_diff_key($this->attributes, [$name => '']);
             return;
         }
@@ -105,7 +104,7 @@ class Node
      */
     public function hasClass($name)
     {
-        if(!$this->hasAttribute('class')) {
+        if (!$this->hasAttribute('class')) {
             return false;
         }
 
@@ -121,14 +120,14 @@ class Node
      */
     public function addClass($name)
     {
-        if(!$this->hasAttribute('class')) {
+        if (!$this->hasAttribute('class')) {
             $this->setAttribute('class', $name);
             return;
         }
 
         $classes = explode(' ', $this->getAttribute('class'));
 
-        if(!in_array($name, $classes)) {
+        if (!in_array($name, $classes)) {
             $classes[] = $name;
             $this->setAttribute('class', implode(' ', $classes));
         }
@@ -141,15 +140,15 @@ class Node
      */
     public function removeClass($name)
     {
-        if(!$this->hasAttribute('class')) {
+        if (!$this->hasAttribute('class')) {
             return;
         }
 
-        if($this->hasClass($name)) {
+        if ($this->hasClass($name)) {
             $classes = explode(' ', $this->getAttribute('class'));
             $classes = array_diff($classes, [$name]);
 
-            if(count($classes) != 0){
+            if (count($classes) != 0) {
                 $this->setAttribute('class', implode(' ', $classes));
             } else {
                 $this->setAttribute('class', null);
