@@ -14,6 +14,9 @@ class NodeTest extends PHPUnit_Framework_TestCase
     {
         $node = new Node('div');
         $this->assertEquals('div', $node->getTag());
+
+        $node = new Node('DIV');
+        $this->assertEquals('div', $node->getTag());
     }
 
     public function testSetTag()

@@ -26,7 +26,7 @@ class Node
      */
     public function __construct($tag, $attributes = [])
     {
-        $this->tag = $tag;
+        $this->setTag($tag);
 
         foreach($attributes as $name => $value) {
             $this->setAttribute($name, $value);
@@ -50,7 +50,7 @@ class Node
      */
     public function setTag($tag)
     {
-        $this->tag = $tag;
+        $this->tag = strtolower($tag);
     }
 
     /**
