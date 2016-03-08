@@ -51,6 +51,18 @@ class Node
     }
 
     /**
+     * Checks if the attribute named $name exists.
+     *
+     * @param string $name The desired attribute name
+     *
+     * @return bool
+     */
+    public function hasAttribute($name)
+    {
+        return (isset($this->attributes[$name]));
+    }
+
+    /**
      * Returns the value of the specified attribute.
      *
      * @param string $name The attribute's name.
@@ -59,7 +71,7 @@ class Node
      */
     public function getAttribute($name)
     {
-        return (isset($this->attributes[$name])) ? $this->attributes[$name] : null;
+        return ($this->hasAttribute($name)) ? $this->attributes[$name] : null;
     }
 
     /**
