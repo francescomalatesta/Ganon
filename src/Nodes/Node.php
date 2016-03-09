@@ -19,6 +19,11 @@ class Node
     private $attributes = [];
 
     /**
+     * @var Node|null
+     */
+    private $parent = null;
+
+    /**
      * Node constructor.
      *
      * @param string $tag
@@ -153,6 +158,50 @@ class Node
             } else {
                 $this->setAttribute('class', null);
             }
+        }
+    }
+
+    /**
+     * Returns true if the current node has a parent, false otherwise.
+     *
+     * @return bool
+     */
+    public function hasParent()
+    {
+        return ($this->parent !== null);
+    }
+
+    /**
+     * Returns the parent node of the current one. Returns null if not present.
+     *
+     * @return Node|null
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Sets a new parent node for the current one.
+     *
+     * @param Node $node The desired new parent node.
+     */
+    public function setParent(Node $node)
+    {
+        $this->parent = $node;
+    }
+
+    /**
+     * Returns the root element of the current one.
+     *
+     * @return Node
+     */
+    public function getRootElement()
+    {
+        if (!$this->hasParent()) {
+            return $this;
+        } else {
+            return $this->parent->getRootElement();
         }
     }
 }

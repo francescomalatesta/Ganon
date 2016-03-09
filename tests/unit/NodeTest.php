@@ -112,4 +112,54 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $node->removeClass('class2');
         $this->assertFalse($node->hasAttribute('class'));
     }
+
+    public function testHasParent()
+    {
+        $node = new Node('div');
+        $child = new Node('p');
+
+        $child->setParent($node);
+
+        $this->assertTrue($child->hasParent());
+        $this->assertFalse($node->hasParent());
+    }
+
+    public function testGetParent()
+    {
+        $node = new Node('div');
+        $child = new Node('p');
+
+        $child->setParent($node);
+
+        $this->assertSame($node, $child->getParent());
+        $this->assertNull($node->getParent());
+    }
+
+    public function testSetParent()
+    {
+        $node = new Node('div');
+        $child = new Node('p');
+
+        $child->setParent($node);
+
+        $this->assertTrue($child->hasParent());
+        $this->assertSame($node, $child->getParent());
+    }
+
+    public function testGetRootElement()
+    {
+        $node = new Node('div');
+        $child = new Node('ul');
+        $child2 = new Node('li');
+        $child3 = new Node('a');
+
+        $child3->setParent($child2);
+        $child2->setParent($child);
+        $child->setParent($node);
+
+        $this->assertSame($node, $child3->getRootElement());
+        $this->assertSame($node, $child2->getRootElement());
+        $this->assertSame($node, $child->getRootElement());
+        $this->assertSame($node, $node->getRootElement());
+    }
 }
