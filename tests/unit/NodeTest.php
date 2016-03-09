@@ -1,8 +1,10 @@
 <?php
 
+namespace francescomalatesta\ganon\tests;
+
 use francescomalatesta\ganon\Nodes\Node;
 
-class NodeTest extends PHPUnit_Framework_TestCase
+class NodeTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
     {
