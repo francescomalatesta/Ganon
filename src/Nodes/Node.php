@@ -24,6 +24,11 @@ class Node
     private $parent = null;
 
     /**
+     * @var array
+     */
+    private $children = [];
+
+    /**
      * Node constructor.
      *
      * @param string $tag
@@ -203,5 +208,74 @@ class Node
         } else {
             return $this->parent->getRootElement();
         }
+    }
+
+    /**
+     * Returns all the children for the current node.
+     *
+     * @return array
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Adds the $node node as a child of the current one.
+     *
+     * @param Node $node The node that has to be added.
+     * @param int|null $index The desired position for the new node. By default it is added at the end.
+     */
+    public function addChild(Node $node, $index = null)
+    {
+        $node->setParent($this);
+
+        if ($index !== null && $index < count($this->children)) {
+            $this->children = array_merge(
+                array_slice($this->children, 0, $index),
+                [$node],
+                array_slice($this->children, $index)
+            );
+
+        } else {
+            $this->children[] = $node;
+        }
+    }
+
+    /**
+     * Returns the index of $node if present. Returns null otherwise.
+     *
+     * @param Node $node
+     * @return int|null
+     */
+    public function findChild(Node $node)
+    {
+        $childIndex = array_search($node, $this->children);
+        return ($childIndex !== false) ? $childIndex : null;
+    }
+
+    /**
+     * Deletes the current node and every link with other nodes in the tree.
+     */
+    public function delete()
+    {
+        /* @var Node $child */
+        foreach ($this->children as $child) {
+            $child->delete();
+        }
+
+        $this->children = [];
+
+        $parent = $this->getParent();
+        if ($parent !== null) {
+            $this->parent = null;
+            $parent->removeChild($this);
+        }
+    }
+
+    protected function removeChild(Node $node)
+    {
+        $index = $this->findChild($node);
+        unset($this->children[$index]);
     }
 }

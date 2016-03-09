@@ -162,4 +162,84 @@ class NodeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($node, $child->getRootElement());
         $this->assertSame($node, $node->getRootElement());
     }
+
+    public function testGetChildren()
+    {
+        $node = new Node('div');
+
+        $childNode = new Node('p');
+        $childNode2 = new Node('ul');
+
+        $this->assertEmpty($node->getChildren());
+
+        $node->addChild($childNode);
+        $node->addChild($childNode2);
+
+        $this->assertCount(2, $node->getChildren());
+        $this->assertSame($childNode, $node->getChildren()[0]);
+        $this->assertSame($childNode2, $node->getChildren()[1]);
+    }
+
+    public function testAddChild()
+    {
+        $node = new Node('div');
+
+        $childNode = new Node('p');
+
+        $node->addChild($childNode);
+
+        $this->assertSame($childNode, $node->getChildren()[0]);
+        $this->assertSame($node, $childNode->getParent());
+    }
+
+    public function testAddChildAtSpecificIndex()
+    {
+        $node = new Node('div');
+
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+
+        $childNode = new Node('a');
+        $childNode2 = new Node('ul');
+
+        $node->addChild($childNode, 0);
+        $node->addChild($childNode2, 2);
+
+        $this->assertSame($childNode, $node->getChildren()[0]);
+        $this->assertSame($childNode2, $node->getChildren()[2]);
+        $this->assertCount(6, $node->getChildren());
+    }
+
+    public function testFindChild()
+    {
+        $node = new Node('div');
+
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+        $node->addChild(new Node('p'));
+
+        $childNode = new Node('a');
+        $childNode2 = new Node('ul');
+        $node->addChild($childNode, 2);
+
+        $this->assertEquals(2, $node->findChild($childNode));
+        $this->assertNull($node->findChild($childNode2));
+    }
+
+    public function testDelete()
+    {
+        $node = new Node('div');
+        $childNode = new Node('p');
+        $childNode2 = new Node('p');
+
+        $node->addChild($childNode);
+        $node->addChild($childNode2);
+
+        $childNode->delete();
+
+        $this->assertCount(1, $node->getChildren());
+    }
 }
